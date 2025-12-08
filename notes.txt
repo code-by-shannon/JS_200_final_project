@@ -1,0 +1,5 @@
+ *** semantic HTML 10 points
+ *** Use vanilla JavaScript 15 points
+ *** Use only one NPM module five points
+        go to google to find one?
+ 
