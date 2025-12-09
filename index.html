@@ -4,19 +4,53 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Final Project - JS 200</title>
+    <title>Notes App - Final Project JS200</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
-    <h1>List of tasks</h1>
-    <ul id="tasks"></ul>
 
-    <h2>Create a new task</h2>
-    <form>
-        <label for = "task">Enter new task:</label>
-        <input type="text" name = "task" id = "task" />
-        <button type = "submit">Submit</button>
-    </form>
+    <!-- Header / Navigation -->
+    <header>
+        <h1>My Notes</h1>
+        <button id="addNoteBtn">Add Note</button>
+    </header>
 
-    <script src = main.js type="module"></script>
+    <!-- Main list area -->
+    <main>
+        <section id="notes-container">
+            <ul id="notes-list"></ul>
+        </section>
+    </main>
+
+    <!-- Modal (starts hidden with CSS later) -->
+    <div id="noteModal" style="display: none;">
+        <div class="modal-content">
+            <h2 id="modalTitle">Add a New Note</h2>
+
+            <form id="noteForm">
+                <label for="noteTitle">Title:</label>
+                <input type="text" id="noteTitle" name="noteTitle" required />
+
+                <label for="noteContent">Description:</label>
+                <textarea id="noteContent" name="noteContent" required></textarea>
+
+                <label for="noteCategory">Category:</label>
+                <select id="noteCategory" name="noteCategory" required>
+                    <option value="">Select a category</option>
+                    <option value="work">Work</option>
+                    <option value="school">School</option>
+                    <option value="personal">Personal</option>
+                </select>
+
+                <button type="submit" id="saveNoteBtn">Save Note</button>
+                <button type="button" id="cancelNoteBtn">Cancel</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Your JS -->
+    <script src="main.js" type="module"></script>
+
 </body>
 </html>
