@@ -1,3 +1,7 @@
+import { initModal } from './modal.js';
+initModal();
+
+
 const formEl = document.querySelector('form');
 const tasksEl = document.querySelector('#tasks');
 
