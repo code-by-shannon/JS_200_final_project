@@ -4,11 +4,17 @@ import { initModal, closeModal } from './modal.js';
 import { addNote, updateNote } from './notes.js';
 import { renderNotes, initNoteListEvents, editingId, resetFormMode } from './ui.js';
 import { renderCategoryDropdown, initCategoryFilter } from './ui.js';
+import { initDetailViewEvents } from './ui.js';
+import { showDetailView } from './ui.js';
+
+
+
 
 
 // Initialize modal and list event handlers
 initModal();
 initNoteListEvents();
+initDetailViewEvents();
 
 // Render any existing notes from localStorage on first load
 renderNotes();

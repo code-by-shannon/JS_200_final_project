@@ -1,16 +1,26 @@
 // ui.js
-
 import { notes, saveNotes } from './notes.js';
 import { openModal } from './modal.js';
 
+// DOM references
 const notesList = document.querySelector('#notes-list');
 const form = document.querySelector('#note_form');
 const modalTitle = document.querySelector('#modal_title');
 
-// 🔹 which note (by id) we're currently editing; null means "adding"
+const detailView = document.querySelector('#detail_view');
+const detailTitle = document.querySelector('#detail_title');
+const detailDescription = document.querySelector('#detail_description');
+const detailCategory = document.querySelector('#detail_category');
+const notesContainer = document.querySelector('#notes-container');
+
+const categoryFilter = document.querySelector('#category_filter');
+
+// Track which note is being edited
 export let editingId = null;
 
-// Render ALL notes to the screen
+/* ---------------------------------------------------------
+   RENDER NOTES LIST
+--------------------------------------------------------- */
 export function renderNotes() {
     const html = notes.map(note => {
         return `
@@ -24,9 +34,14 @@ export function renderNotes() {
     }).join("");
 
     notesList.innerHTML = html;
+
+    // update category dropdown after rendering
+    renderCategoryDropdown();
 }
 
-// 🔹 Put the form into "edit mode" and pre-fill it
+/* ---------------------------------------------------------
+   START EDIT MODE
+--------------------------------------------------------- */
 export function startEditingNote(id) {
     const note = notes.find(n => n.id === id);
     if (!note) return;
@@ -41,14 +56,42 @@ export function startEditingNote(id) {
     openModal();
 }
 
-// 🔹 Reset form/mode back to "Add Note"
+/* ---------------------------------------------------------
+   RESET TO ADD MODE
+--------------------------------------------------------- */
 export function resetFormMode() {
     editingId = null;
     modalTitle.textContent = 'Add a New Note';
     form.reset();
 }
 
-// Handle clicking Edit / Delete buttons
+/* ---------------------------------------------------------
+   DETAIL VIEW
+--------------------------------------------------------- */
+export function showDetailView(id) {
+    const note = notes.find(n => n.id === id);
+    if (!note) return;
+
+    detailTitle.textContent = note.title;
+    detailDescription.textContent = note.description;
+    detailCategory.textContent = note.category;
+
+    notesContainer.style.display = 'none';
+    detailView.style.display = 'block';
+}
+
+export function initDetailViewEvents() {
+    const backButton = document.querySelector('#detail_back');
+
+    backButton.addEventListener('click', () => {
+        detailView.style.display = 'none';
+        notesContainer.style.display = 'block';
+    });
+}
+
+/* ---------------------------------------------------------
+   HANDLE EDIT & DELETE & CLICK-LI-FOR-DETAIL
+--------------------------------------------------------- */
 export function initNoteListEvents() {
     notesList.addEventListener('click', e => {
         const li = e.target.closest('li');
@@ -56,7 +99,13 @@ export function initNoteListEvents() {
 
         const id = Number(li.dataset.id);
 
-        // Delete
+        // ⭐ Clicked the LI itself → open detail view
+        if (e.target.tagName !== 'BUTTON') {
+            showDetailView(id);
+            return;
+        }
+
+        // ⭐ Delete
         if (e.target.classList.contains('delete-note')) {
             const confirmed = window.confirm('Are you sure you want to delete this note?');
             if (!confirmed) return;
@@ -69,41 +118,42 @@ export function initNoteListEvents() {
             }
         }
 
-        // Edit
+        // ⭐ Edit
         if (e.target.classList.contains('edit-note')) {
             startEditingNote(id);
         }
     });
 }
 
-// Collect all unique categories in notes
+/* ---------------------------------------------------------
+   CATEGORY FILTER
+--------------------------------------------------------- */
+
 function getCategories() {
     const categories = notes
-        .map(note => note.category.trim())
-        .filter(cat => cat !== ""); // remove empty
+        .map(n => n.category.trim())
+        .filter(c => c !== '');
 
-    return ["All Categories", ...new Set(categories)];
+    return ['All Categories', ...new Set(categories)];
 }
 
 export function renderCategoryDropdown() {
-    const select = document.querySelector('#category_filter');
-    if (!select) return;
+    if (!categoryFilter) return;
 
-    const categories = getCategories();
+    const cats = getCategories();
 
-    select.innerHTML = categories
+    categoryFilter.innerHTML = cats
         .map(cat => `<option value="${cat}">${cat}</option>`)
-        .join("");
+        .join('');
 }
 
 export function initCategoryFilter() {
-    const select = document.querySelector('#category_filter');
-    if (!select) return;
+    if (!categoryFilter) return;
 
-    select.addEventListener('change', () => {
-        const chosen = select.value;
+    categoryFilter.addEventListener('change', () => {
+        const chosen = categoryFilter.value;
 
-        if (chosen === "All Categories") {
+        if (chosen === 'All Categories') {
             renderNotes();
             return;
         }
@@ -124,6 +174,3 @@ export function initCategoryFilter() {
         notesList.innerHTML = html;
     });
 }
-
-
-

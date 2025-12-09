@@ -1,7 +1,157 @@
-body{
-    color:green;
+/* RESET (safe) */
+body, h1, h2, h3, p, ul, li, button {
+    margin: 0;
+    padding: 0;
 }
 
-#note_modal{
-    display:none;
+body {
+    font-family: Arial, sans-serif;
+    background: #fafafa;
+    color: #222;
+    padding: 20px;
+}
+
+/* HEADER */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+#add_note {
+    padding: 8px 14px;
+    background: #0066cc;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#add_note:hover {
+    background: #0055aa;
+}
+
+/* NOTES LIST */
+#notes-container {
+    margin-bottom: 20px;
+}
+
+#notes-list li {
+    list-style-type: disc;
+    margin-bottom: 12px;
+}
+
+#notes-list strong {
+    font-size: 1.1rem;
+}
+
+/* Buttons on cards */
+.edit-note,
+.delete-note {
+    margin-right: 6px;
+    padding: 4px 10px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+}
+
+.edit-note {
+    background: #4CAF50;
+    color: white;
+}
+
+.edit-note:hover {
+    background: #3b9a40;
+}
+
+.delete-note {
+    background: #E74C3C;
+    color: white;
+}
+
+.delete-note:hover {
+    background: #c0392b;
+}
+
+/* CATEGORY FILTER */
+#category_filter {
+    padding: 6px;
+    margin-top: 10px;
+}
+
+/* DETAIL VIEW */
+#detail_view {
+    background: white;
+    padding: 20px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    max-width: 400px;
+}
+
+#detail_back {
+    margin-top: 12px;
+    padding: 6px 12px;
+    background: #666;
+    color: white;
+    border: none;
+    border-radius: 4px;
+}
+
+#detail_back:hover {
+    background: #555;
+}
+
+/* MODAL */
+#note_modal {
+    display: none; /* controlled by JS */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal_content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 320px;
+}
+
+/* Modal fields */
+#note_form input,
+#note_form textarea,
+#note_form select {
+    width: 100%;
+    margin-bottom: 12px;
+    padding: 8px;
+    border: 1px solid #bbb;
+    border-radius: 4px;
+}
+
+/* Modal buttons */
+#save_note_button,
+#cancel_button {
+    padding: 8px 14px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#save_note_button {
+    background: #0066cc;
+    color: white;
+}
+
+#cancel_button {
+    background: #888;
+    color: white;
+}
+
+#cancel_button:hover {
+    background: #666;
 }

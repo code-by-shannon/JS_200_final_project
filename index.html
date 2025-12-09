@@ -26,10 +26,22 @@
         <select id="category_filter">
             <option value="all">All Categories</option>
         </select>
-        
     </main>
 
-    <!-- Modal (starts hidden with CSS later) -->
+
+
+
+<!-- Detail view area (starts hidden) -->
+<section id="detail_view" style="display:none;">
+    <h2 id="detail_title"></h2>
+    <p id="detail_description"></p>
+    <p><strong>Category:</strong> <span id="detail_category"></span></p>
+
+    <button id="detail_back">Back to Notes</button>
+</section>
+
+
+<!-- Modal (starts hidden with CSS later) -->
     <div id="note_modal">
         <div class="modal_content">
             <h2 id="modal_title">Add a New Note</h2>
