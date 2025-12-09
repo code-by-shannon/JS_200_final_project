@@ -1,4 +1,4 @@
-
+// modal.js 
 const modal = document.querySelector('#note_modal');
 const addNoteButton = document.querySelector('#add_note');
 const cancelButton = document.querySelector('#cancel_button');

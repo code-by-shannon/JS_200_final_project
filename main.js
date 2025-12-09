@@ -1,45 +1,50 @@
-import { initModal } from './modal.js';
+// main.js
+
+import { initModal, closeModal } from './modal.js';
+import { addNote, updateNote } from './notes.js';
+import { renderNotes, initNoteListEvents, editingId, resetFormMode } from './ui.js';
+import { renderCategoryDropdown, initCategoryFilter } from './ui.js';
+
+
+// Initialize modal and list event handlers
 initModal();
+initNoteListEvents();
 
+// Render any existing notes from localStorage on first load
+renderNotes();
 
-const formEl = document.querySelector('form');
-const tasksEl = document.querySelector('#tasks');
+// Select the form
+const form = document.querySelector('#note_form');
 
-let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-console.log(tasks);
-
-tasksEl.addEventListener('click', (e)=>{
-    const action = e.target.getAttribute('data-action');
-    const index = e.target.getAttribute('data-index');
-    console.log(action, index);
-
-    if(action === 'delete'){
-        tasks.splice(index, 1);
-        saveAndRenderTasks(tasks);
-    }
-});
-
-const saveAndRenderTasks = (tasks) => {
-    localStorage.setItem('tasks', JSON.stringify(tasks));
-    renderTasks(tasks);
-}
-
-formEl.addEventListener('submit', (e)=>{
+// Handle adding / editing notes
+form.addEventListener('submit', (e) => {
     e.preventDefault();
-    const value = formEl.elements['task'].value;
-    
-    tasks.push({title: value});
-    formEl.reset();
-    saveAndRenderTasks(tasks);
 
-})
+    const title = form.note_title.value.trim();
+    const description = form.note_description.value.trim();
+    const category = form.note_category.value.trim();
 
-const renderTasks = (tasks) => {
-    const tasksHTML = tasks.map((task, index) => {
-        return `<li>${task.title} <button data-action = 'delete' data-index = ${index}>delete</button></li>`;
-    }).join("");
+    // basic validation (you may later swap this for your npm validation lib)
+    if (!title || !description || !category) {
+        alert('All fields are required.');
+        return;
+    }
 
-    tasksEl.innerHTML = tasksHTML;
-};
+    if (editingId !== null) {
+        // EDIT existing note
+        updateNote(editingId, title, description, category);
+    } else {
+        // ADD new note
+        addNote(title, description, category);
+    }
 
-renderTasks(tasks);
+    // Re-render list
+    renderNotes();
+    renderCategoryDropdown();
+    initCategoryFilter();
+
+
+    // Reset form + mode, then close modal
+    resetFormMode();
+    closeModal();
+});
